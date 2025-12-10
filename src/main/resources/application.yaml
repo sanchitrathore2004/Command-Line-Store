@@ -1,0 +1,9 @@
+spring:
+  application:
+    name: Database-connection
+  datasource:
+    url: jdbc:mysql://172.23.197.207:3306/store?createDatabaseIfNotExist=true
+    username: root
+    password: root
+  jpa:
+    show-sql: true
