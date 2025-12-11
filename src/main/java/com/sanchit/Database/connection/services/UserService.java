@@ -1,5 +1,6 @@
 package com.sanchit.Database.connection.services;
 
+import com.sanchit.Database.connection.entities.Address;
 import com.sanchit.Database.connection.entities.Product;
 import com.sanchit.Database.connection.entities.User;
 import com.sanchit.Database.connection.repositories.UserRepository;
@@ -11,14 +12,6 @@ public class UserService {
     private UserRepository userRepository;
     public UserService(UserRepository userRepository) {
         this.userRepository = userRepository;
-    }
-    private User findUserByEmail (String email) {
-        for(User user: userRepository.findAll()){
-            if(user.getEmail().equals(email)){
-                return user;
-            }
-        }
-        return null;
     }
     private void addUserToProductWishlist (User user, Product product) {
         user.getWishlist().add(product);
@@ -32,9 +25,12 @@ public class UserService {
         userRepository.save(user);
         System.out.println("User registered successfully");
     }
+    public User getUserByEmail (String email) {
+        return userRepository.getUserByEmail(email);
+    }
     @Transactional
     public void addProductToWishlist (String email, String password, String productName, ProductService productService) {
-        User user = findUserByEmail(email);
+        User user = getUserByEmail(email);
         if(user == null) {
             System.out.println("User not found");
             return ;
@@ -50,5 +46,15 @@ public class UserService {
         }
         addUserToProductWishlist(user, product);
         System.out.println("Product added successfully");
+    }
+    public void showUserDetails (String email) {
+        User user = userRepository.getUserByEmail(email);
+        System.out.println("Name: " + user.getName());
+        System.out.println("Email: " + user.getEmail());
+        for(Address address : user.getAddresses()) {
+            System.out.println("Street: " + address.getStreet());
+            System.out.println("City: " + address.getCity());
+            System.out.println("pincode: "+address.getPincode());
+        }
     }
 }

@@ -7,10 +7,7 @@ import com.sanchit.Database.connection.entities.User;
 import com.sanchit.Database.connection.repositories.AddressRepository;
 import com.sanchit.Database.connection.repositories.ProfileRepository;
 import com.sanchit.Database.connection.repositories.UserRepository;
-import com.sanchit.Database.connection.services.AddressService;
-import com.sanchit.Database.connection.services.CategoryService;
-import com.sanchit.Database.connection.services.ProductService;
-import com.sanchit.Database.connection.services.UserService;
+import com.sanchit.Database.connection.services.*;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -25,6 +22,8 @@ public class DatabaseConnectionApplication {
         var categoryService = context.getBean(CategoryService.class);
         var productService = context.getBean(ProductService.class);
         var userService = context.getBean(UserService.class);
+        var addressService = context.getBean(AddressService.class);
+        var profileService = context.getBean(ProfileService.class);
         while(true){
             System.out.println("Option 0: Exit");
             System.out.println("Option 1: Add Category");
@@ -32,6 +31,10 @@ public class DatabaseConnectionApplication {
             System.out.println("Option 3: Register Yourself");
             System.out.println("Option 4: Add Product to Wishlist");
             System.out.println("Option 5: Delete a product");
+            System.out.println("Option 6: Show User Details");
+            System.out.println("Option 7: Add Address Details");
+            System.out.println("Option 8: Update Profile Details");
+            System.out.println("Option 9: Show Profile Above Loyalty Points");
             int option = scan.nextInt();
             switch (option) {
                 case 0:
@@ -72,6 +75,42 @@ public class DatabaseConnectionApplication {
                     System.out.print("Enter Product Name: ");
                     String productName3 = scan.next();
                     productService.deleteProductByName(productName3);
+                case 6:
+                    System.out.print("Enter Your Email: ");
+                    String email3 = scan.next();
+                    userService.showUserDetails(email3);
+                    break;
+                case 7:
+                    System.out.print("Enter Your Email: ");
+                    String email4 = scan.next();
+                    System.out.print("Enter Your Password: ");
+                    String password4 = scan.next();
+                    System.out.print("Enter street: ");
+                    String street = scan.next();
+                    System.out.print("Enter city: ");
+                    String city = scan.next();
+                    System.out.print("Enter pincode: ");
+                    String pincode = scan.next();
+                    addressService.addAddress(email4, street, city, password4, pincode, userService);
+                    break;
+                case 8:
+                    System.out.print("Enter Your Email: ");
+                    String email5 = scan.next();
+                    System.out.print("Enter Your Password: ");
+                    String password5 = scan.next();
+                    System.out.print("Enter Your Bio: ");
+                    String bio = scan.next();
+                    System.out.print("Enter Your Phone Number: ");
+                    String phoneNumber = scan.next();
+                    System.out.print("Enter DOB In Format YYYYMMDD: ");
+                    String dob = scan.next();
+                    profileService.updateProfile(email5, password5, bio, phoneNumber, dob, userService);
+                    break;
+                case 9:
+                    System.out.print("Enter Loyalty Points: ");
+                    int points = scan.nextInt();
+                    profileService.showProfilesAboveLoyaltyPoints(points);
+                    break;
             }
         }
 	}

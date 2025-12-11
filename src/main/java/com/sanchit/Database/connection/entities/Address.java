@@ -17,7 +17,7 @@ public class Address {
     private String city;
     @Column(nullable = false, name = "pincode")
     private String pincode;
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
 
